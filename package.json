@@ -1,0 +1,13 @@
+{
+  "name": "jamsoy",
+  "version": "0.0.1",
+  "description": "JavaScript GameBoy Emulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "disassemble": "node bin/disassemble.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
