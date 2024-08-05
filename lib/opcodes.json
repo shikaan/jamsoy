@@ -6,7 +6,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -155,7 +155,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "0",
@@ -328,7 +328,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "0",
@@ -498,7 +498,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "0",
@@ -667,7 +667,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "0",
@@ -843,7 +843,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "Z",
@@ -1018,7 +1018,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -1194,7 +1194,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -1369,7 +1369,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -2680,7 +2680,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -4647,7 +4647,7 @@
 			"cycles": [
 				16
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -4688,7 +4688,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -4987,7 +4987,7 @@
 			"cycles": [
 				16
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -5508,7 +5508,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
@@ -5680,7 +5680,7 @@
 			"cycles": [
 				4
 			],
-			"operands": [],
+			"operands": [ ],
 			"immediate": true,
 			"flags": {
 				"Z": "-",
