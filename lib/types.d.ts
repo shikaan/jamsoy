@@ -52,4 +52,27 @@ enum ColorMode {
   ColorOnly,
   PGB,
 }
-export { CartridgeMetadata, Instruction, Operand }
+
+interface Register {
+  A: number;
+  B: number;
+  C: number;
+  D: number;
+  E: number;
+  F: number;
+  H: number;
+  L: number;
+  SP: number;
+  PC: number;
+  AF: number;
+  BC: number;
+  DE: number;
+  HL: number;
+  flagCarry: boolean;
+  flagHalfCarry: boolean;
+  flagSubtract: boolean;
+  flagZero: boolean;
+  reset(): void;
+}
+
+export { CartridgeMetadata, Instruction, Operand, Register }
