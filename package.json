@@ -4,7 +4,7 @@
   "description": "JavaScript GameBoy Emulator",
   "main": "index.js",
   "scripts": {
-    "test": "node --test --test-reporter=spec lib",
+    "test": "node --test",
     "disassemble": "node bin/disassemble.mjs"
   },
   "author": "",
