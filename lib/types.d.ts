@@ -75,4 +75,6 @@ interface Register {
   reset(): void;
 }
 
+type InstructionExecutor = (i: Instruction, r: Register, d: Uint8Array) => number
+
 export { CartridgeMetadata, Instruction, Operand, Register }
