@@ -1,5 +1,10 @@
-// Mock data and helper functions
-const makeData = () => new Uint8Array(256).fill(0).map((_, index) => index); // Mock memory data
+/**
+ * @returns {import('../lib/types').Memory}
+ */
+const makeData = () => {
+  const data = new Uint8Array(256).fill(0).map((_, index) => index);
+  return new DataView(data.buffer);
+}
 /**
  * @returns {import('../lib/types').Register}
  */

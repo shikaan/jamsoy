@@ -80,4 +80,6 @@ interface Register {
 
 type InstructionExecutor = (i: Instruction, r: Register, d: Uint8Array) => number
 
-export { CartridgeMetadata, Instruction, Operand, Register }
+type Memory = DataView
+
+export { CartridgeMetadata, Instruction, Operand, Register, Memory }
