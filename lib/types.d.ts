@@ -16,6 +16,8 @@ interface RawOperand {
 interface Operand {
   name: string;
   immediate: boolean;
+  increment?: boolean;
+  decrement?: boolean;
   value?: number;
 }
 
@@ -26,6 +28,7 @@ interface Instruction {
   operands: Operand[];
   immediate: boolean;
   flags: Object;
+  opcode: number;
 }
 
 
