@@ -2,3 +2,4 @@ fixtures
 .vscode
 .idea
 .todo
+node_modules

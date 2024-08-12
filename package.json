@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "node --test",
+    "lint": "prettier -w lib",
     "disassemble": "node bin/disassemble.mjs"
   },
   "author": "",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "prettier": "3.3.3"
+  }
 }

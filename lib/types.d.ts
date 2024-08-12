@@ -31,7 +31,6 @@ interface Instruction {
   opcode: number;
 }
 
-
 interface CartridgeMetadata {
   entryPoint: Uint8Array;
   nintendoLogo: Uint8Array;
@@ -78,8 +77,15 @@ interface Register {
   reset(): void;
 }
 
-type Memory = DataView
+type Memory = DataView;
 
-type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number
+type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number;
 
-export { CartridgeMetadata, Instruction, Operand, Register, Memory, InstructionExecutor }
+export {
+  CartridgeMetadata,
+  Instruction,
+  Operand,
+  Register,
+  Memory,
+  InstructionExecutor,
+};
