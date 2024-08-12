@@ -1,0 +1,31 @@
+<html>
+
+<head>
+  <title>JamSoy - GameBoy Emulator</title>
+</head>
+
+<body>
+  <h1>JamSoy - GameBoy Emulator</h1>
+  <h2 id="title"></h2>
+  <input type="file" id="rom" accept=".gb" />
+  <script type="module">
+    import { getMetadata } from '../lib/cartridge.mjs';
+    import { run } from '../lib/cpu.mjs';
+
+    const $rom = document.getElementById('rom');
+    const $title = document.getElementById('title');
+
+    $rom.addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      const buffer = await file.arrayBuffer();
+      const cartridge = new Uint8Array(buffer);
+      const metadata = getMetadata(cartridge);
+
+      $title.textContent = metadata.title;
+
+      run(cartridge);
+    });
+  </script>
+</body>
+
+</html>
