@@ -78,8 +78,8 @@ interface Register {
   reset(): void;
 }
 
-type InstructionExecutor = (i: Instruction, r: Register, d: Uint8Array) => number
-
 type Memory = DataView
 
-export { CartridgeMetadata, Instruction, Operand, Register, Memory }
+type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number
+
+export { CartridgeMetadata, Instruction, Operand, Register, Memory, InstructionExecutor }
