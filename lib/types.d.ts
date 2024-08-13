@@ -77,7 +77,12 @@ interface Register {
   reset(): void;
 }
 
-type Memory = DataView;
+interface Memory {
+  readByte(address: number): number;
+  readWord(address: number): number;
+  writeByte(address: number, value: number): void;
+  writeWord(address: number, value: number): void;
+}
 
 type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number;
 

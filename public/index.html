@@ -10,20 +10,21 @@
   <input type="file" id="rom" accept=".gb" />
   <script type="module">
     import { getMetadata } from '../lib/cartridge.mjs';
-    import { run } from '../lib/cpu.mjs';
+    import { GameBoy } from '../lib/gameboy.mjs';
 
+    const gameboy = new GameBoy();
     const $rom = document.getElementById('rom');
     const $title = document.getElementById('title');
 
     $rom.addEventListener('change', async (event) => {
       const file = event.target.files[0];
       const buffer = await file.arrayBuffer();
-      const cartridge = new Uint8Array(buffer);
-      const metadata = getMetadata(cartridge);
+      const rom = new Uint8Array(buffer);
+      const metadata = getMetadata(rom);
 
       $title.textContent = metadata.title;
 
-      run(cartridge);
+      gameboy.loadROM(rom);
     });
   </script>
 </body>

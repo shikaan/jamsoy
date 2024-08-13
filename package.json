@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "lint": "prettier -w lib",
-    "disassemble": "node bin/disassemble.mjs"
+    "disassemble": "node bin/disassemble.mjs",
+    "web": "python3 -m http.server"
   },
   "author": "",
   "license": "ISC",
