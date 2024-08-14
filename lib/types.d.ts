@@ -1,3 +1,6 @@
+import { Memory } from './memory.mjs';
+import { CPU } from './cpu/cpu.mjs';
+
 interface RawInstruction {
   mnemonic: string;
   bytes: number;
@@ -77,13 +80,6 @@ interface Register {
   reset(): void;
 }
 
-interface Memory {
-  readByte(address: number): number;
-  readWord(address: number): number;
-  writeByte(address: number, value: number): void;
-  writeWord(address: number, value: number): void;
-}
-
 type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number;
 
 export {
@@ -93,4 +89,5 @@ export {
   Register,
   Memory,
   InstructionExecutor,
+  CPU
 };
