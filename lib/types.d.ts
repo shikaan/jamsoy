@@ -1,5 +1,6 @@
 import { Memory } from './memory.mjs';
 import { CPU } from './cpu/cpu.mjs';
+import { Interrupts } from './interrupts.mjs';
 
 interface RawInstruction {
   mnemonic: string;
@@ -89,5 +90,6 @@ export {
   Register,
   Memory,
   InstructionExecutor,
-  CPU
+  CPU,
+  Interrupts,
 };
