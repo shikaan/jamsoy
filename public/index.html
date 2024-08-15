@@ -2,24 +2,34 @@
 
 <head>
   <title>JamSoy - GameBoy Emulator</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+      image-rendering: pixelated;
+      width: 320px;
+      height: 288px;
+    }
+  </style>
 </head>
 
 <body>
   <h1>JamSoy - GameBoy Emulator</h1>
   <h2 id="title"></h2>
   <input type="file" id="rom" accept=".gb" />
+  <canvas id="screen" width="160" height="144"></canvas>
   <script type="module">
     import { getMetadata } from '../lib/cartridge.mjs';
     import { GameBoy } from '../lib/gameboy.mjs';
 
-    const gameboy = new GameBoy();
     const $rom = document.getElementById('rom');
     const $title = document.getElementById('title');
+    const $screen = document.getElementById('screen');
+
+    const gameboy = new GameBoy($screen);
 
     const loop = () => {
       requestAnimationFrame(() => {
         gameboy.update();
-        console.log('frame');
         loop();
       })
     }
