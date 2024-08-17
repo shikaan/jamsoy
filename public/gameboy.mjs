@@ -1,11 +1,11 @@
 // @ts-check
-import { Memory } from "./memory.mjs";
-import { CPU } from "./cpu/cpu.mjs";
-import { Timer } from "./timer.mjs";
-import { register } from "./cpu/registers.mjs";
-import { Interrupts } from "./interrupts.mjs";
-import { Graphics } from "./graphics.mjs";
-import { CanvasScreen } from "./screen.mjs";
+import { Memory } from "../lib/memory.mjs";
+import { CPU } from "../lib/cpu/cpu.mjs";
+import { Timer } from "../lib/timer.mjs";
+import { register } from "../lib/cpu/registers.mjs";
+import { Interrupts } from "../lib/interrupts.mjs";
+import { Graphics } from "../lib/graphics.mjs";
+import { CanvasScreen } from "../lib/screen.mjs";
 
 class GameBoy {
   constructor(canvas) {
@@ -16,6 +16,16 @@ class GameBoy {
     this.timer = new Timer(this.memory, this.cpu);
     this.screen = new CanvasScreen(canvas);
     this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
+
+    this.memory.onWrite(0xFF01, (v) => {
+      console.log('0xFF01')
+      console.log(v)
+    });
+
+    this.memory.onWrite(0xFF02, (v) => {
+      console.log('0xFF02')
+      console.log(v)
+    });
   }
 
   /**
@@ -24,6 +34,7 @@ class GameBoy {
   loadROM(rom) {
     this.memory.loadROM(rom);
     this.#init();
+    this.memory.writeByte(0xFF01, 0x128); // TIMA
   }
 
   update() {

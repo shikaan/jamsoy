@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { argv } from 'node:process';
 import { getMetadata } from '../lib/cartridge.mjs';
-import { decode } from '../lib/decoder.mjs';
+import { decode } from '../lib/cpu/decoder.mjs';
 import { format } from '../lib/format.mjs';
 
 const file = argv[2];
