@@ -34,15 +34,13 @@ class GameBoy {
   loadROM(rom) {
     this.memory.loadROM(rom);
     this.#init();
-    this.memory.writeByte(0xFF01, 0x128); // TIMA
   }
 
   update() {
-    const rom = this.memory.getROM();
     let cycles = 0;
     while (cycles < CPU.MAX_CYCLES) {
       // console.time("instruction");
-      cycles += this.cpu.executeNextIntruction(rom);
+      cycles += this.cpu.executeNextIntruction();
       // console.timeEnd("instruction");
 
       // console.time("timer");

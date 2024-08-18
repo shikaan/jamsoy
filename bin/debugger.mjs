@@ -18,16 +18,11 @@ const interrupts = new Interrupts(memory, register);
 const cpu = new CPU(memory, register, interrupts);
 const timer = new Timer(memory, cpu);
 
-memory.onWrite(0xFF02, (v) => {
-  console.log('0xFF02');
-  if (v === 0x81) {
-    process.stdout.write(String.fromCharCode(memory.readByte(0xFF01)));
-  }
-});
+const logfile = fs.createWriteStream('log.txt', { flags: 'w' });
 
 memory.initialize();
-cpu.initialize();
 memory.loadROM(cartridge);
+cpu.initialize();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -37,13 +32,23 @@ const rl = readline.createInterface({
 //clear terminal
 process.stdout.write('\x1Bc');
 
-console.log("[F8]: execute next instruction, [F9]: execute next frame, [F10]: run, [R]: registers, [M]: memory, [CTRL+C]: exit");
+console.log(`[F8]: next instruction, [F9]: next N instructions, [F10]: run and dump logs, [R]: registers, [M]: memory, [CTRL+C]: exit`);
 
 process.stdin.setRawMode(true);
 
-const rom = memory.getROM();
-
 let cycles = 0;
+let instructions = BigInt(0);
+function tick(debug) {
+  instructions++;
+  cycles += cpu.executeNextIntruction(debug);
+  timer.update(cycles);
+  interrupts.handleInterrupts();
+
+  if (cycles >= CPU.MAX_CYCLES) {
+    cycles = 0;
+  }
+}
+
 let isProcessingAnotherCommand = false;
 process.stdin.on('keypress', (str, key) => {
   if (key.ctrl && key.name === 'c') {
@@ -55,43 +60,41 @@ process.stdin.on('keypress', (str, key) => {
   if (key.name === 'f8') {
     isProcessingAnotherCommand = true;
     process.stdout.clearLine(0);
-    cycles += cpu.executeNextIntruction(rom);
-    timer.update(cycles);
-    interrupts.handleInterrupts();
-
-    if (cycles >= CPU.MAX_CYCLES) {
-      cycles = 0;
-    }
+    tick(true);
     isProcessingAnotherCommand = false;
   }
   else if (key.name === 'f9') {
     isProcessingAnotherCommand = true;
     process.stdout.clearLine(0);
-    while (cycles < CPU.MAX_CYCLES) {
-      cycles += cpu.executeNextIntruction(rom);
-      timer.update(cycles);
-      interrupts.handleInterrupts();
-    }
-    cycles = 0;
-    isProcessingAnotherCommand = false;
+    rl.question('  > Number of instructions to run: ', (n) => {
+      const total = BigInt(n);
+      const loop = () => {
+        tick(true);
+        if (instructions < total) {
+          setImmediate(loop);
+        } else {
+          isProcessingAnotherCommand = false;
+        }
+      }
+      loop();
+    });
   }
   else if (key.name === 'f10') {
     isProcessingAnotherCommand = true;
+    console.log('Running instruction and dumping logs...');
     process.stdout.clearLine(0);
-    while (true) {
-      cycles += cpu.executeNextIntruction(rom);
-      timer.update(cycles);
-      interrupts.handleInterrupts();
-      if (cycles >= CPU.MAX_CYCLES) {
-        cycles = 0;
-      }
+    const loop = () => {
+      printInlineRegisters(logfile);
+      tick(false);
+      setImmediate(loop);
     }
+    loop();
     isProcessingAnotherCommand = false;
   }
   else if (key.name === 'r') {
     isProcessingAnotherCommand = true;
     process.stdout.cursorTo(0)
-    printRegisters()
+    printInlineRegisters(process.stdout);
     isProcessingAnotherCommand = false;
   }
   else if (key.name === 'm') {
@@ -100,6 +103,7 @@ process.stdin.on('keypress', (str, key) => {
     rl.question('  > Memory address: ', (address) => {
       const addr = Number.parseInt(address.trim(), 16);
       console.log(`  >> memory[%s] = %s`, format.hex(addr), format.hex(memory.readByte(addr)));
+      console.log(`  >> memory[%s] = %s`, format.hex(addr), format.hex(memory.readWord(addr)));
       isProcessingAnotherCommand = false;
     });
   }
@@ -109,11 +113,21 @@ rl.on('close', () => {
   process.exit(0);
 });
 
-function printRegisters() {
-  console.log(`  > Registers:`);
-  for (const [key, value] of Object.entries(register)) {
-    if (key != 'reset') {
-      console.log(`  >> ${key}: ${format.hex(+value)}`);
-    }
-  }
+const hex = (value, pad) => value.toString(16).toUpperCase().padStart(pad, '0');
+function printInlineRegisters(stream) {
+  const result = [
+    `A:${hex(+register.A, 2)}`,
+    `F:${hex(+register.F, 2)}`,
+    `B:${hex(+register.B, 2)}`,
+    `C:${hex(+register.C, 2)}`,
+    `D:${hex(+register.D, 2)}`,
+    `E:${hex(+register.E, 2)}`,
+    `H:${hex(+register.H, 2)}`,
+    `L:${hex(+register.L, 2)}`,
+    `SP:${hex(+register.SP, 4)}`,
+    `PC:${hex(+register.PC, 4)}`,
+    `PCMEM:${hex(+memory.readByte(+register.PC), 2)},${hex(+memory.readByte(+register.PC + 1), 2)},${hex(+memory.readByte(+register.PC + 2), 2)},${hex(+memory.readByte(+register.PC + 3), 2)}`,
+  ]
+
+  stream.write(result.join(' ') + '\n');
 }
