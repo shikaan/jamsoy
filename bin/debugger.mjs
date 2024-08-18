@@ -70,7 +70,8 @@ process.stdin.on('keypress', (str, key) => {
     rl.question('  > Number of instructions to run: ', (n) => {
       const total = BigInt(n);
       const loop = () => {
-        tick(true);
+        // print last 10 instructions before stopping
+        tick(instructions > (total - 10n));
         if (instructions < total) {
           setImmediate(loop);
         } else {
