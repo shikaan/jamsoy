@@ -17,15 +17,15 @@ class GameBoy {
     this.screen = new CanvasScreen(canvas);
     this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
 
-    this.memory.onWrite(0xFF01, (v) => {
-      console.log('0xFF01')
-      console.log(v)
-    });
-
-    this.memory.onWrite(0xFF02, (v) => {
-      console.log('0xFF02')
-      console.log(v)
-    });
+    let buffer = '';
+    this.memory.onSerial((char) => {
+      if (char === '\n') {
+        console.log(buffer);
+        buffer = '';
+      } else {
+        buffer += char;
+      }
+    })
   }
 
   /**

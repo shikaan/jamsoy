@@ -20,6 +20,7 @@ const timer = new Timer(memory, cpu);
 
 const logfile = fs.createWriteStream('log.txt', { flags: 'w' });
 
+memory.onSerial(process.stdout.write.bind(process.stdout));
 memory.initialize();
 memory.loadROM(cartridge);
 cpu.initialize();
