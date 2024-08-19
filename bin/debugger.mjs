@@ -16,7 +16,7 @@ const cartridge = fs.readFileSync(file);
 const memory = new Memory()
 const interrupts = new Interrupts(memory, register);
 const cpu = new CPU(memory, register, interrupts);
-const timer = new Timer(memory, cpu);
+const timer = new Timer(memory, interrupts);
 
 const logfile = fs.createWriteStream('test.log', { flags: 'w' });
 
@@ -71,7 +71,9 @@ process.stdin.on('keypress', (str, key) => {
       const total = BigInt(n);
       const loop = () => {
         // print last 10 instructions before stopping
-        tick(instructions > (total - 10n));
+        const debug = instructions > (total - 20n);
+        tick(debug);
+
         if (instructions < total) {
           setImmediate(loop);
         } else {
@@ -132,4 +134,8 @@ function printInlineRegisters(stream) {
   ]
 
   stream.write(result.join(' ') + '\n');
+}
+
+function printMemoryLocation(memory, addr) {
+  console.log(`M[%s]: %s %s`, format.hex(addr), format.hex(memory.readByte(addr)), format.hex(memory.readWord(addr)));
 }

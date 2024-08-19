@@ -13,7 +13,7 @@ class GameBoy {
     this.register = register;
     this.interrupts = new Interrupts(this.memory, register);
     this.cpu = new CPU(this.memory, register, this.interrupts);
-    this.timer = new Timer(this.memory, this.cpu);
+    this.timer = new Timer(this.memory, this.interrupts);
     this.screen = new CanvasScreen(canvas);
     this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
 
