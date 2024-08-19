@@ -18,7 +18,7 @@ const interrupts = new Interrupts(memory, register);
 const cpu = new CPU(memory, register, interrupts);
 const timer = new Timer(memory, cpu);
 
-const logfile = fs.createWriteStream('log.txt', { flags: 'w' });
+const logfile = fs.createWriteStream('test.log', { flags: 'w' });
 
 memory.onSerial(process.stdout.write.bind(process.stdout));
 memory.initialize();
@@ -40,10 +40,10 @@ process.stdin.setRawMode(true);
 let cycles = 0;
 let instructions = BigInt(0);
 function tick(debug) {
+  interrupts.handleInterrupts();
   instructions++;
   cycles += cpu.executeNextIntruction(debug);
   timer.update(cycles);
-  interrupts.handleInterrupts();
 
   if (cycles >= CPU.MAX_CYCLES) {
     cycles = 0;

@@ -39,21 +39,10 @@ class GameBoy {
   update() {
     let cycles = 0;
     while (cycles < CPU.MAX_CYCLES) {
-      // console.time("instruction");
-      cycles += this.cpu.executeNextIntruction();
-      // console.timeEnd("instruction");
-
-      // console.time("timer");
-      this.timer.update(cycles);
-      // console.timeEnd("timer");
-
-      // console.time("graphics");
-      this.graphics.update(cycles);
-      // console.timeEnd("graphics");
-
-      // console.time("interrupts");
       this.interrupts.handleInterrupts();
-      // console.timeEnd("interrupts");
+      cycles += this.cpu.executeNextIntruction();
+      this.timer.update(cycles);
+      this.graphics.update(cycles);
     }
     this.screen.draw();
   }
