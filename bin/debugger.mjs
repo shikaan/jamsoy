@@ -71,7 +71,7 @@ process.stdin.on('keypress', (str, key) => {
       const total = BigInt(n);
       const loop = () => {
         // print last 10 instructions before stopping
-        const debug = instructions > (total - 20n);
+        const debug = instructions > (total - 30n);
         tick(debug);
 
         if (instructions < total) {
