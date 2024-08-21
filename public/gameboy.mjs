@@ -40,7 +40,7 @@ class GameBoy {
     let cycles = 0;
     while (cycles < CPU.MAX_CYCLES) {
       this.interrupts.handleInterrupts();
-      cycles += this.cpu.executeNextIntruction();
+      cycles += this.cpu.executeNextIntruction(false);
       this.timer.update(cycles);
       this.graphics.update(cycles);
     }
