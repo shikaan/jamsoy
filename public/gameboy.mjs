@@ -13,7 +13,7 @@ class GameBoy {
     this.register = register;
     this.interrupts = new Interrupts(this.memory, register);
     this.cpu = new CPU(this.memory, register, this.interrupts);
-    this.timer = new Timer(this.memory, this.cpu);
+    this.timer = new Timer(this.memory, this.interrupts);
     this.screen = new CanvasScreen(canvas);
     this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
 
@@ -39,21 +39,10 @@ class GameBoy {
   update() {
     let cycles = 0;
     while (cycles < CPU.MAX_CYCLES) {
-      // console.time("instruction");
-      cycles += this.cpu.executeNextIntruction();
-      // console.timeEnd("instruction");
-
-      // console.time("timer");
-      this.timer.update(cycles);
-      // console.timeEnd("timer");
-
-      // console.time("graphics");
-      this.graphics.update(cycles);
-      // console.timeEnd("graphics");
-
-      // console.time("interrupts");
       this.interrupts.handleInterrupts();
-      // console.timeEnd("interrupts");
+      cycles += this.cpu.executeNextIntruction(false);
+      this.timer.update(cycles);
+      this.graphics.update(cycles);
     }
     this.screen.draw();
   }
