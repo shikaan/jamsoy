@@ -7,6 +7,7 @@ import { Interrupts } from "../lib/interrupts.mjs";
 import { Graphics } from "../lib/graphics.mjs";
 
 class GameBoy {
+  buffer = '';
   constructor(screen) {
     this.memory = new Memory();
     this.register = register;
@@ -16,13 +17,12 @@ class GameBoy {
     this.screen = screen
     this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
 
-    let buffer = '';
     this.memory.onSerial((char) => {
       if (char === '\n') {
-        console.log(buffer);
-        buffer = '';
+        console.log(this.buffer);
+        this.buffer = '';
       } else {
-        buffer += char;
+        this.buffer += char;
       }
     })
   }
@@ -32,6 +32,7 @@ class GameBoy {
    */
   loadROM(rom) {
     this.#init();
+    this.buffer = '';
     this.memory.loadROM(rom);
   }
 

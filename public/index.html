@@ -26,7 +26,7 @@
 
   <script type="module">
     // @ts-check
-    import { getMetadata } from '../lib/cartridge.mjs';
+    import { getMetadata, formatMetadata } from '../lib/cartridge.mjs';
     import { GameBoy } from './gameboy.mjs';
     import { Memory } from '../lib/memory.mjs';
     import { Interrupts } from '../lib/interrupts.mjs';
@@ -40,24 +40,35 @@
 
     const gameboy = new GameBoy(canvasScreen);
 
-    const loop = () => {
-      requestAnimationFrame(() => {
-        gameboy.update();
-        loop();
-      })
-    }
+    let animationFrameId;
+    let lastTime = 0;
+    const fps = 60;
+    const frameDuration = 1000 / fps;
 
+    const loop = (timestamp) => {
+      if (timestamp - lastTime >= frameDuration) {
+        lastTime = timestamp;
+        gameboy.update();
+      }
+      animationFrameId = requestAnimationFrame(loop);
+    };
+
+    let reset;
     $rom.addEventListener('change', async (event) => {
+      reset?.();
       canvasScreen.clear();
       const file = event.target.files[0];
       const buffer = await file.arrayBuffer();
       const rom = new Uint8Array(buffer);
       const metadata = getMetadata(rom);
+      console.log(formatMetadata(metadata));
 
       $title.textContent = metadata.title;
 
       gameboy.loadROM(rom);
-      loop()
+      lastTime = performance.now();
+      animationFrameId = requestAnimationFrame(loop);
+      reset = () => cancelAnimationFrame(animationFrameId);
     });
   </script>
 </body>
