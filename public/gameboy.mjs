@@ -31,8 +31,8 @@ class GameBoy {
    * @param {Uint8Array} rom
    */
   loadROM(rom) {
-    this.memory.loadROM(rom);
     this.#init();
+    this.memory.loadROM(rom);
   }
 
   instructions = 0;
