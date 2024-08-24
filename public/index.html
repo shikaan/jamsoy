@@ -22,7 +22,6 @@
   <div>
     <h3>Load ROM</h3>
     <input type="file" id="rom" accept=".gb" />
-    <button id="test">Test</button>
   </div>
 
   <script type="module">
@@ -37,48 +36,9 @@
     const $rom = document.getElementById('rom');
     const $title = document.getElementById('title');
     const $screen = document.getElementById('screen');
-    const $test = document.getElementById('test');
+    const canvasScreen = new CanvasScreen($screen);
 
-    $test?.addEventListener('click', async () => {
-      const memory = new Memory();
-      const interrupts = new Interrupts(memory, {});
-      const screen = new CanvasScreen($screen);
-      const graphics = new Graphics(memory, interrupts, screen);
-
-      // Set up the LCD control byte to enable the LCD
-      memory.unsafeWriteByte(LCD_CONTROL_REGISTER, 0b10110001); // Example value to enable LCD and background
-
-      const tileData = [
-        0xFF, 0xFF,
-        0x81, 0x81,
-        0xBD, 0xBD,
-        0xA5, 0xA5,
-        0xA5, 0xA5,
-        0xBD, 0xBD,
-        0x81, 0x81,
-        0xFF, 0xFF
-      ];
-
-      const tileAddress = 0x8000;
-      for (let i = 0; i < tileData.length; i++) {
-        memory.unsafeWriteByte(tileAddress + i, tileData[i]);
-      }
-
-      // Set up the background map to use the tile at address 0x8000
-      const backgroundMapAddress = 0x9800;
-      for (let i = 0; i < 32 * 32; i++) { // 32x32 tiles
-        memory.unsafeWriteByte(backgroundMapAddress + i, 0x00); // Tile index 0
-      }
-
-      // Update the graphics to render the sprite
-      for (let i = 0; i < CYCLES_TO_DRAW_LINE; i++) {
-        graphics.update(i);
-      }
-      screen.draw();
-    });
-
-
-    const gameboy = new GameBoy($screen);
+    const gameboy = new GameBoy(canvasScreen);
 
     const loop = () => {
       requestAnimationFrame(() => {
@@ -88,6 +48,7 @@
     }
 
     $rom.addEventListener('change', async (event) => {
+      canvasScreen.clear();
       const file = event.target.files[0];
       const buffer = await file.arrayBuffer();
       const rom = new Uint8Array(buffer);
