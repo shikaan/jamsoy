@@ -9,6 +9,7 @@ import { format } from '../lib/format.mjs';
 import { Interrupts } from '../lib/interrupts.mjs';
 import { register } from '../lib/cpu/registers.mjs';
 import { Timer } from '../lib/timer.mjs';
+import { formatMetadata, getMetadata } from '../lib/cartridge.mjs';
 
 const file = argv[2];
 const cartridge = fs.readFileSync(file);
@@ -17,6 +18,7 @@ const memory = new Memory()
 const interrupts = new Interrupts(memory, register);
 const cpu = new CPU(memory, register, interrupts);
 const timer = new Timer(memory, interrupts);
+const meta = getMetadata(cartridge);
 
 const logfile = fs.createWriteStream('test.log', { flags: 'w' });
 
@@ -32,7 +34,8 @@ const rl = readline.createInterface({
 
 //clear terminal
 process.stdout.write('\x1Bc');
-
+console.log(`Jamboy - Debugger`);
+console.log(formatMetadata(meta));
 console.log(`[F8]: next instruction, [F9]: next N instructions, [F10]: run and dump logs, [R]: registers, [M]: memory, [CTRL+C]: exit`);
 
 process.stdin.setRawMode(true);
