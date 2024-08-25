@@ -6,13 +6,18 @@
   <style>
     body {
       font-family: monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-evenly;
-      height: 100vh;
-      margin: 0;
       background-color: aliceblue;
+    }
+
+    section {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    h1 {
+      padding: 1rem;
     }
 
     canvas {
@@ -30,16 +35,42 @@
 </head>
 
 <body>
-  <h1>JamSoy - GameBoy Emulator</h1>
-  <h2 id="title">&nbsp;</h2>
+  <h1>JamSoy - Tester</h1>
+  <section>
+    <main>
+      <div>
+        <canvas id="screen" width="160" height="144"></canvas>
+      </div>
+    </main>
+    <aside>
+      <h3>Tests</h3>
+      <h4>Blaggr's</h4>
+      <label for="cpu_instrs">cpu_instrs</label>
+      <select id="cpu_instrs">
+        <option>Select one</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/01-special.gb">01-special.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/02-interrupts.gb">02-interrupts.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/03-op sp,hl.gb">03-op sp,hl.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/04-op r,imm.gb">04-op r,imm.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/05-op rp.gb">05-op rp.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/06-ld r,r.gb">06-ld r,r.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/07-jr,jp,call,ret,rst.gb">07-jr,jp,call,ret,rst.gb
+        </option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/08-misc instrs.gb">08-misc instrs.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/09-op r,r.gb">09-op r,r.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/10-bit ops.gb">10-bit ops.gb</option>
+        <option value="/fixtures/blaggr/cpu_instrs/individual/11-op a,(hl).gb">11-op a,(hl).gb</option>
+      </select>
 
-  <div>
-    <canvas id="screen" width="160" height="144"></canvas>
-  </div>
-
-  <div>
-    <input type="file" id="rom" accept=".gb" />
-  </div>
+      <h4>Games</h4>
+      <select id="games">
+        <option>Select one</option>
+        <option value="/fixtures/games/snake.gb">Snake</option>
+        <option value="/fixtures/games/Tetris.gb">Tetris</option>
+        <option value="/fixtures/games/DrMario.gb">Dr. Mario</option>
+      </select>
+    </aside>
+  </section>
 
   <script type="module">
     // @ts-check
@@ -51,41 +82,35 @@
     import { Graphics, CYCLES_TO_DRAW_LINE, LCD_CONTROL_REGISTER } from '../lib/graphics.mjs';
 
     const $rom = document.getElementById('rom');
-    const $title = document.getElementById('title');
     const $screen = document.getElementById('screen');
     const canvasScreen = new CanvasScreen($screen);
 
+    const $cpuInstrs = document.getElementById('cpu_instrs');
+    const $games = document.getElementById('games');
+
     const gameboy = new GameBoy(canvasScreen);
 
-    let animationFrameId;
-    let lastTime = 0;
-    const fps = 60;
-    const frameDuration = 1000 / fps;
-
-    const loop = (timestamp) => {
-      if (timestamp - lastTime >= frameDuration) {
-        lastTime = timestamp;
-        gameboy.update();
-      }
-      animationFrameId = requestAnimationFrame(loop);
-    };
-
     let reset;
-    $rom.addEventListener('change', async (event) => {
+    const launch = async (file) => {
       reset?.();
       canvasScreen.clear();
-      const file = event.target.files[0];
       const buffer = await file.arrayBuffer();
       const rom = new Uint8Array(buffer);
       const metadata = getMetadata(rom);
       console.log(formatMetadata(metadata));
 
-      $title.textContent = metadata.title;
-
       gameboy.loadROM(rom);
-      lastTime = performance.now();
-      animationFrameId = requestAnimationFrame(loop);
-      reset = () => cancelAnimationFrame(animationFrameId);
+      const timerID = setInterval(gameboy.update.bind(gameboy), 15);
+      reset = () => clearInterval(timerID);
+    }
+
+    $cpuInstrs.addEventListener('change', async (event) => {
+      const rom = await fetch(event.target.value).then(response => response.blob());
+      launch(rom);
+    });
+    $games.addEventListener('change', async (event) => {
+      const rom = await fetch(event.target.value).then(response => response.blob());
+      launch(rom);
     });
   </script>
 </body>
