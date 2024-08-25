@@ -2,25 +2,42 @@
 
 <head>
   <title>JamSoy - GameBoy Emulator</title>
+  <link rel="stylesheet" href="reset.css" />
   <style>
+    body {
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 100vh;
+      margin: 0;
+      background-color: aliceblue;
+    }
+
     canvas {
       image-rendering: pixelated;
       width: 320px;
       height: 288px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html {
+        filter: invert(1) hue-rotate(180deg);
+      }
     }
   </style>
 </head>
 
 <body>
   <h1>JamSoy - GameBoy Emulator</h1>
-  <h2 id="title"></h2>
+  <h2 id="title">&nbsp;</h2>
 
   <div>
     <canvas id="screen" width="160" height="144"></canvas>
   </div>
 
   <div>
-    <h3>Load ROM</h3>
     <input type="file" id="rom" accept=".gb" />
   </div>
 
