@@ -52,7 +52,8 @@
       <h3>Colors</h3>
       <div>
         <label>
-          <input type="checkbox" onchange="document.getElementsByTagName('html')[0].classList.toggle('dark')" />
+          <input type="checkbox" id="dark-mode"
+            onchange="document.getElementsByTagName('html')[0].classList.toggle('dark')" />
           Dark mode
         </label>
       </div>
@@ -117,19 +118,6 @@
     </aside>
   </section>
 
-  <template id="test-card">
-    <button></button>
-
-    <script>
-      const template = document.currentScript.parentElement;
-      const button = template.content.querySelector('button');
-      button.addEventListener('click', async () => {
-        const rom = await fetch(button.value).then(response => response.blob());
-        launch(rom);
-      });
-    </script>
-  </template>
-
   <script type="module">
     // @ts-check
     import { getMetadata, formatMetadata } from '../lib/cartridge.mjs';
@@ -163,6 +151,14 @@
     window.loadROM = (url) => fetch(url)
       .then(response => response.blob())
       .then(launch);
+
+    window.onload = () => {
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (prefersDarkScheme) {
+        document.getElementById('dark-mode').checked = true;
+        document.getElementsByTagName('html')[0].classList.add('dark');
+      }
+    }
   </script>
 </body>
 
