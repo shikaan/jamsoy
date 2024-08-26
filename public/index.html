@@ -34,10 +34,8 @@
       height: 288px;
     }
 
-    @media (prefers-color-scheme: dark) {
-      html {
-        filter: invert(1) hue-rotate(180deg);
-      }
+    html.dark {
+      filter: invert(1) hue-rotate(180deg);
     }
   </style>
 </head>
@@ -51,6 +49,13 @@
       </div>
     </main>
     <aside>
+      <h3>Colors</h3>
+      <div>
+        <label>
+          <input type="checkbox" onchange="document.getElementsByTagName('html')[0].classList.toggle('dark')" />
+          Dark mode
+        </label>
+      </div>
       <h3>Tests</h3>
       <div>
         <h4>Blaggr's</h4>
