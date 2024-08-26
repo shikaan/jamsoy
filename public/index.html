@@ -106,13 +106,24 @@
       </div>
 
       <div>
+        <h4>Mooneye</h4>
+        <select id="mooneye" onchange="loadROM(event.target.value)">
+          <option>Select one</option>
+          <optgroup label="acceptance">
+            <option value="/fixtures/mooneye/acceptance/add_sp_e_timing.gb">add_sp_e_timing.gb</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div>
         <h4>Games</h4>
-        <select id="games" onchange="loadROM(event.target.value)">
+        <select id=" games" onchange="loadROM(event.target.value)">
           <option>Select one</option>
           <option value="/fixtures/games/snake.gb">Snake</option>
           <option value="/fixtures/games/Tetris.gb">Tetris</option>
           <option value="/fixtures/games/DrMario.gb">Dr. Mario</option>
           <option value="/fixtures/games/tictactoe.gb">TicTacToe</option>
+          <option value="/fixtures/games/SuperMarioLand.gb">Super Mario Land</option>
         </select>
       </div>
     </aside>
