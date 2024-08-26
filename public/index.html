@@ -137,11 +137,24 @@
     import { Interrupts } from '../lib/interrupts.mjs';
     import { CanvasScreen } from '../lib/screen.mjs';
     import { Graphics, CYCLES_TO_DRAW_LINE, LCD_CONTROL_REGISTER } from '../lib/graphics.mjs';
+    import { Input, KEY } from '../lib/input.mjs';
 
     const $rom = document.getElementById('rom');
     const $screen = document.getElementById('screen');
     const canvasScreen = new CanvasScreen($screen);
-    const gameboy = new GameBoy(canvasScreen);
+    const input = new Input();
+    const gameboy = new GameBoy(canvasScreen, input);
+
+    const keyMap = {
+      ArrowUp: KEY.UP,
+      ArrowDown: KEY.DOWN,
+      ArrowLeft: KEY.LEFT,
+      ArrowRight: KEY.RIGHT,
+      z: KEY.A,
+      x: KEY.B,
+      Enter: KEY.START,
+      Shift: KEY.SELECT,
+    };
 
     let reset;
     const launch = async (file) => {
@@ -153,7 +166,7 @@
       console.log(formatMetadata(metadata));
 
       gameboy.loadROM(rom);
-      const timerID = setInterval(gameboy.update.bind(gameboy), 15);
+      const timerID = setInterval(gameboy.update.bind(gameboy), 1);
       reset = () => clearInterval(timerID);
     }
 
@@ -170,6 +183,11 @@
         document.getElementsByTagName('html')[0].classList.add('dark');
       }
     }
+
+    window.addEventListener('keydown', (event) => {
+      input.keyDown(keyMap[event.key])
+    });
+    window.addEventListener('keyup', (event) => input.keyUp(keyMap[event.key]));
   </script>
 </body>
 

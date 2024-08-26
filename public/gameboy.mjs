@@ -8,8 +8,11 @@ import { Graphics } from "../lib/graphics.mjs";
 
 class GameBoy {
   buffer = '';
-  constructor(screen) {
-    this.memory = new Memory();
+  input;
+
+  constructor(screen, input) {
+    this.input = input;
+    this.memory = new Memory(input);
     this.register = register;
     this.interrupts = new Interrupts(this.memory, register);
     this.cpu = new CPU(this.memory, register, this.interrupts);
@@ -54,6 +57,7 @@ class GameBoy {
     this.memory.initialize();
     this.cpu.initialize();
     this.timer.initialize();
+    this.input.initialize();
   }
 }
 
