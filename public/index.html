@@ -156,6 +156,11 @@
       Shift: KEY.SELECT,
     };
 
+    const loop = () => {
+      screen.draw();
+      return requestAnimationFrame(loop);
+    }
+
     let reset;
     const launch = async (file) => {
       reset?.();
@@ -166,8 +171,12 @@
       console.log(formatMetadata(metadata));
 
       gameboy.loadROM(rom);
-      const timerID = setInterval(gameboy.update.bind(gameboy), 1);
-      reset = () => clearInterval(timerID);
+      const timerID = setInterval(() => gameboy.update(), 8);
+      const animationFrame = loop();
+      reset = () => {
+        clearInterval(timerID);
+        cancelAnimationFrame(animationFrame);
+      }
     }
 
     window.gameboy = gameboy;

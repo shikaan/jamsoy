@@ -17,8 +17,7 @@ class GameBoy {
     this.interrupts = new Interrupts(this.memory, register);
     this.cpu = new CPU(this.memory, register, this.interrupts);
     this.timer = new Timer(this.memory, this.interrupts);
-    this.screen = screen
-    this.graphics = new Graphics(this.memory, this.interrupts, this.screen);
+    this.graphics = new Graphics(this.memory, this.interrupts, screen);
 
     this.memory.onSerial((char) => {
       if (char === '\n') {
@@ -45,12 +44,11 @@ class GameBoy {
     let cycles = 0;
     while (cycles < CPU.MAX_CYCLES) {
       cycles += this.cpu.executeNextIntruction(false);
-      this.instructions++;
+      // this.instructions++;
       this.interrupts.handleInterrupts();
       this.timer.update(cycles);
       this.graphics.update(cycles);
     }
-    this.screen.draw();
   }
 
   #init() {
