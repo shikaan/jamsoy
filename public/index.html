@@ -111,6 +111,32 @@
           <option>Select one</option>
           <optgroup label="acceptance">
             <option value="/fixtures/mooneye/acceptance/add_sp_e_timing.gb">add_sp_e_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_cc_timing.gb">call_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_cc_timing2.gb">call_cc_timing2.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_timing.gb">call_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_timing2.gb">call_timing2.gb</option>
+            <option value="/fixtures/mooneye/acceptance/div_timing.gb">div_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ei_sequence.gb">ei_sequence.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ei_timing.gb">ei_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime0_ei.gb">halt_ime0_ei.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime0_nointr_timing.gb">halt_ime0_nointr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime1_timing.gb">halt_ime1_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/if_ie_registers.gb">if_ie_registers.gb</option>
+            <option value="/fixtures/mooneye/acceptance/intr_timing.gb">intr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/jp_cc_timing.gb">jp_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/jp_timing.gb">jp_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ld_hl_sp_e_timing.gb">ld_hl_sp_e_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_restart.gb">oam_dma_restart.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_start.gb">oam_dma_start.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_timing.gb">oam_dma_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/pop_timing.gb">pop_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/push_timing.gb">push_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/rapid_di_ei.gb">rapid_di_ei.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ret_cc_timing.gb">ret_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ret_timing.gb">ret_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/reti_intr_timing.gb">reti_intr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/reti_timing.gb">reti_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/rst_timing.gb">rst_timing.gb</option>
           </optgroup>
         </select>
       </div>
@@ -158,6 +184,7 @@
     };
 
     const loop = () => {
+      gameboy.update();
       screen.draw();
       return requestAnimationFrame(loop);
     }
@@ -172,10 +199,8 @@
       console.log(formatMetadata(metadata));
 
       gameboy.loadROM(rom);
-      const timerID = setInterval(() => gameboy.update(), 8);
       const animationFrame = loop();
       reset = () => {
-        clearInterval(timerID);
         cancelAnimationFrame(animationFrame);
       }
     }
