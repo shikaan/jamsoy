@@ -3,4 +3,3 @@ test/fixtures/**
 .idea
 .todo
 node_modules
-test.log
