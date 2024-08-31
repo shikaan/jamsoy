@@ -13,16 +13,17 @@ GameBoy emulator in pure JavaScript
 * Most games run fine, but occasionally you'll hit a glitch (see timing note below)
 * You can try it out [here](https://shikaan.github.io/jamsoy/)
 * Passes most Blarrg's tests
-* Does not depend on Browser APIs.
-  * It runs in Node (tested) and probably other runtimes (Deno, Bun)
 
-## TO-DOs
+## Run it locally
 
-* Does not support sound
-* Timing is not precise. Specifically, PPU penalties are wrong I believe
-* Does not support save states
-* Palette is hardcoded, but doesn't have to be
-* There is no ROM validation
+If you have NodeJS>=20.5.1 you can run JamSoy locally with
+
+```sh
+# This is only needed for the example, so it's not in the main package.json
+npm i --no-save @kmamal/sdl
+
+./examples/jamsoy.mjs <ROM path>
+```
 
 ## Deployment
 
