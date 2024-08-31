@@ -18,11 +18,7 @@ class GameBoy {
     this.memory = new Memory(input);
     this.registers = new CPURegisters();
     this.interrupts = new Interrupts(this.memory, this.registers);
-    this.cpu = new CPU(
-      this.memory,
-      this.registers,
-      this.interrupts,
-    );
+    this.cpu = new CPU(this.memory, this.registers, this.interrupts);
     this.timer = new Timer(this.memory, this.interrupts);
     this.graphics = new PPU(this.memory, this.interrupts, screen);
   }
