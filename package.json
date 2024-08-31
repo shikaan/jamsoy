@@ -2,14 +2,13 @@
   "name": "jamsoy",
   "version": "0.0.1",
   "description": "JavaScript GameBoy Emulator",
-  "main": "index.js",
   "scripts": {
     "test": "node --test",
     "lint": "prettier -w lib",
     "test:browser": "python3 -m http.server",
     "bundle": "rm -rf docs && mkdir docs && cp -r public/* docs && cp -r lib docs/"
   },
-  "author": "",
+  "author": "Manuel Spagnolo <manuel.spagnolo@duck.com>",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
