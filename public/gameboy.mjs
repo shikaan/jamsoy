@@ -38,16 +38,14 @@ class GameBoy {
     this.memory.loadROM(rom);
   }
 
-  instructions = 0;
-
   update() {
-    let cycles = 0;
-    while (cycles < CPU.MAX_CYCLES) {
-      cycles += this.cpu.executeNextIntruction(false);
-      // this.instructions++;
+    let tCyclesThisFrame = 0;
+    while (tCyclesThisFrame < CPU.CYCLES_PER_FRAME) {
+      const tCycles = this.cpu.executeNextIntruction();
+      tCyclesThisFrame += tCycles;
       this.interrupts.handleInterrupts();
-      this.timer.update(cycles);
-      this.graphics.update(cycles);
+      this.timer.update(tCycles);
+      this.graphics.update(tCycles);
     }
   }
 
