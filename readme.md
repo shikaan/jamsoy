@@ -1,28 +1,35 @@
-JamSoy
----
+<h1 align="center">JamSoy</h1>
 
-GameBoy emulator in pure JavaScript
+<p align="center">
+GameBoy emulator in pure JavaScript.
+</p>
+
+<p align="center">
+  <img width="160" height="144" src="https://github.com/user-attachments/assets/83d67d14-c91d-4903-96cf-0bd412a37857" alt="The Legend of Zelda - Link's Awakening Opening Screen">
+  <img width="160" height="144" src="https://github.com/user-attachments/assets/38a08c1a-0085-4548-ab64-6b8a50368a5a" alt="Dr. Mario Opening Screen">
+  <img width="160" height="144" src="https://github.com/user-attachments/assets/612f0367-ab3b-4c48-aff8-c2a3174ca2ea" alt="Tetris Opening Screen">
+</p>
 
 > [!CAUTION]
-> This is not stable! I made this to learn about emulation and it's my first attempt at it. I did not dig too deep in many areas, so a few things might be plain wrong.
+> This is not stable! I made this to learn emulation and it's my first attempt at it. I did not dig too deep in many areas, so a few things might be plain wrong.
 
 ## Features
 
 * Supports GameBoy ROMs (no gbc, sgb, gba)
-* Supports No Banking and MBC1 ROMs
-* Most games run fine, but occasionally you'll hit a glitch (see timing note below)
+* Supports No MBC and MBC1 ROMs
 * You can try it out [here](https://shikaan.github.io/jamsoy/)
 * Passes most Blarrg's tests
-* Does not depend on Browser APIs.
-  * It runs in Node (tested) and probably other runtimes (Deno, Bun)
 
-## TO-DOs
+## Run it locally
 
-* Does not support sound
-* Timing is not precise. Specifically, PPU penalties are wrong I believe
-* Does not support save states
-* Palette is hardcoded, but doesn't have to be
-* There is no ROM validation
+If you have NodeJS>=20.5.1 you can run JamSoy locally with
+
+```sh
+# This is only needed for the example, so it's not in the main package.json
+npm i --no-save @kmamal/sdl
+
+./examples/jamsoy.mjs <ROM path>
+```
 
 ## Deployment
 
