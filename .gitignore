@@ -1,4 +1,4 @@
-fixtures
+test/fixtures/**
 .vscode
 .idea
 .todo

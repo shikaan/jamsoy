@@ -1,0 +1,229 @@
+<html>
+
+<head>
+  <title>JamSoy - Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: aliceblue;
+    }
+
+    section {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    aside>div {
+      padding: 1rem;
+    }
+
+    aside>div>label {
+      padding: 1rem;
+    }
+
+    h1 {
+      padding: 1rem;
+    }
+
+    canvas {
+      image-rendering: pixelated;
+      width: 320px;
+      height: 288px;
+    }
+
+    html.dark {
+      filter: invert(1) hue-rotate(180deg);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>JamSoy - Tester</h1>
+  <section>
+    <main>
+      <div>
+        <canvas id="screen" width="160" height="144"></canvas>
+      </div>
+    </main>
+    <aside>
+      <h3>Colors</h3>
+      <div>
+        <label>
+          <input type="checkbox" id="dark-mode"
+            onchange="document.getElementsByTagName('html')[0].classList.toggle('dark')" />
+          Dark mode
+        </label>
+      </div>
+      <h3>Tests</h3>
+      <div>
+        <h4>Blaggr's</h4>
+        <select id="blaggr" onchange="loadROM(event.target.value)">
+          <option>Select one</option>
+          <optgroup label=" cpu_instrs">
+            <option value="/fixtures/blaggr/cpu_instrs/cpu_instrs.gb">cpu_instrs.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/01-special.gb">01-special.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/02-interrupts.gb">02-interrupts.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/03-op sp,hl.gb">03-op sp,hl.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/04-op r,imm.gb">04-op r,imm.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/05-op rp.gb">05-op rp.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/06-ld r,r.gb">06-ld r,r.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/07-jr,jp,call,ret,rst.gb">07-jr,jp,call,ret,rst.gb
+            </option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/08-misc instrs.gb">08-misc instrs.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/09-op r,r.gb">09-op r,r.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/10-bit ops.gb">10-bit ops.gb</option>
+            <option value="/fixtures/blaggr/cpu_instrs/individual/11-op a,(hl).gb">11-op a,(hl).gb</option>
+          </optgroup>
+          <optgroup label="instr_timing">
+            <option value="/fixtures/blaggr/instr_timing/instr_timing.gb">instr_timing.gb</option>
+          </optgroup>
+          <optgroup label="mem_timing">
+            <option value="/fixtures/blaggr/mem_timing/individual/01-read_timing.gb">01-read_timing.gb</option>
+            <option value="/fixtures/blaggr/mem_timing/individual/02-write_timing.gb">02-write_timing.gb</option>
+            <option value="/fixtures/blaggr/mem_timing/individual/03-modify_timing.gb">03-modify_timing.gb</option>
+          </optgroup>
+          <optgroup label="mem_timing-2">
+            <option value="/fixtures/blaggr/mem_timing-2/rom_singles/01-read_timing.gb">01-read_timing.gb</option>
+            <option value="/fixtures/blaggr/mem_timing-2/rom_singles/02-write_timing.gb">02-write_timing.gb</option>
+            <option value="/fixtures/blaggr/mem_timing-2/rom_singles/03-modify_timing.gb">03-modify_timing.gb</option>
+          </optgroup>
+          <optgroup label="halt_bug">
+            <option value="/fixtures/blaggr/halt_bug.gb">halt_bug.gb</option>
+          </optgroup>
+          <optgroup label="oam_bug">
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/1-lcd_sync.gb">1-lcd_sync.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/2-causes.gb">2-causes.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/3-non_causes.gb">3-non_causes.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/4-scanline_timing.gb">4-scanline_timing.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/5-timing_bug.gb">5-timing_bug.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/6-timing_no_bug.gb">6-timing_no_bug.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/7-timing_effect.gb">7-timing_effect.gb</option>
+            <option value="/fixtures/blaggr/oam_bug/rom_singles/8-instr_effect.gb">8-instr_effect.gb</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div>
+        <h4>Mooneye</h4>
+        <select id="mooneye" onchange="loadROM(event.target.value)">
+          <option>Select one</option>
+          <optgroup label="acceptance">
+            <option value="/fixtures/mooneye/acceptance/add_sp_e_timing.gb">add_sp_e_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_cc_timing.gb">call_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_cc_timing2.gb">call_cc_timing2.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_timing.gb">call_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/call_timing2.gb">call_timing2.gb</option>
+            <option value="/fixtures/mooneye/acceptance/div_timing.gb">div_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ei_sequence.gb">ei_sequence.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ei_timing.gb">ei_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime0_ei.gb">halt_ime0_ei.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime0_nointr_timing.gb">halt_ime0_nointr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/halt_ime1_timing.gb">halt_ime1_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/if_ie_registers.gb">if_ie_registers.gb</option>
+            <option value="/fixtures/mooneye/acceptance/intr_timing.gb">intr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/jp_cc_timing.gb">jp_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/jp_timing.gb">jp_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ld_hl_sp_e_timing.gb">ld_hl_sp_e_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_restart.gb">oam_dma_restart.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_start.gb">oam_dma_start.gb</option>
+            <option value="/fixtures/mooneye/acceptance/oam_dma_timing.gb">oam_dma_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/pop_timing.gb">pop_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/push_timing.gb">push_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/rapid_di_ei.gb">rapid_di_ei.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ret_cc_timing.gb">ret_cc_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/ret_timing.gb">ret_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/reti_intr_timing.gb">reti_intr_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/reti_timing.gb">reti_timing.gb</option>
+            <option value="/fixtures/mooneye/acceptance/rst_timing.gb">rst_timing.gb</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div>
+        <h4>Games</h4>
+        <select id=" games" onchange="loadROM(event.target.value)">
+          <option>Select one</option>
+          <option value="/fixtures/games/snake.gb">Snake</option>
+          <option value="/fixtures/games/Tetris.gb">Tetris</option>
+          <option value="/fixtures/games/DrMario.gb">Dr. Mario</option>
+          <option value="/fixtures/games/tictactoe.gb">TicTacToe</option>
+          <option value="/fixtures/games/SuperMarioLand.gb">Super Mario Land</option>
+          <option value="/fixtures/games/zelda.gb">Link's Awakening</option>
+        </select>
+      </div>
+    </aside>
+  </section>
+
+  <script type="module">
+    // @ts-check
+    import { getMetadata, formatMetadata } from '../lib/cartridge.mjs';
+    import { GameBoy } from '../lib/gameboy.mjs';
+    import { Memory } from '../lib/memory.mjs';
+    import { Interrupts } from '../lib/interrupts.mjs';
+    import { CanvasScreen } from '../lib/screen.mjs';
+    import { Graphics, CYCLES_TO_DRAW_LINE, LCD_CONTROL_REGISTER } from '../lib/graphics.mjs';
+    import { Input, KEY } from '../lib/input.mjs';
+
+    const $rom = document.getElementById('rom');
+    const $screen = document.getElementById('screen');
+    const canvasScreen = new CanvasScreen($screen);
+    const input = new Input();
+    const gameboy = new GameBoy(canvasScreen, input);
+
+    const keyMap = {
+      ArrowUp: KEY.UP,
+      ArrowDown: KEY.DOWN,
+      ArrowLeft: KEY.LEFT,
+      ArrowRight: KEY.RIGHT,
+      z: KEY.A,
+      x: KEY.B,
+      Enter: KEY.START,
+      Shift: KEY.SELECT,
+    };
+
+    const loop = () => {
+      gameboy.update();
+      screen.draw();
+      return requestAnimationFrame(loop);
+    }
+
+    let reset;
+    const launch = async (file) => {
+      reset?.();
+      canvasScreen.clear();
+      const buffer = await file.arrayBuffer();
+      const rom = new Uint8Array(buffer);
+      const metadata = getMetadata(rom);
+      console.log(formatMetadata(metadata));
+
+      gameboy.loadROM(rom);
+      const animationFrame = loop();
+      reset = () => {
+        cancelAnimationFrame(animationFrame);
+      }
+    }
+
+    window.gameboy = gameboy;
+    window.screen = canvasScreen;
+    window.loadROM = (url) => fetch(url)
+      .then(response => response.blob())
+      .then(launch);
+
+    window.onload = () => {
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (prefersDarkScheme) {
+        document.getElementById('dark-mode').checked = true;
+        document.getElementsByTagName('html')[0].classList.add('dark');
+      }
+    }
+
+    window.addEventListener('keydown', (event) => {
+      input.keyDown(keyMap[event.key])
+    });
+    window.addEventListener('keyup', (event) => input.keyUp(keyMap[event.key]));
+  </script>
+</body>
+
+</html>
