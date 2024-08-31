@@ -1,7 +1,9 @@
-import { Memory } from './memory.mjs';
-import { CPU } from './cpu/cpu.mjs';
-import { Interrupts } from './interrupts.mjs';
-import { Screen } from './screen.mjs';
+import { Memory } from "./memory.mjs";
+import { CPU } from "./cpu/cpu.mjs";
+import { Interrupts } from "./interrupts.mjs";
+import { Screen } from "./screen.mjs";
+import { CPURegisters } from "./cpu/registers.mjs";
+import { Decoder } from "./decoder.mjs";
 
 interface RawInstruction {
   mnemonic: string;
@@ -60,35 +62,14 @@ enum ColorMode {
   PGB,
 }
 
-interface Register {
-  A: number;
-  B: number;
-  C: number;
-  D: number;
-  E: number;
-  F: number;
-  H: number;
-  L: number;
-  SP: number;
-  PC: number;
-  AF: number;
-  BC: number;
-  DE: number;
-  HL: number;
-  flagCarry: boolean;
-  flagHalfCarry: boolean;
-  flagSubtract: boolean;
-  flagZero: boolean;
-  reset(): void;
-}
-
 type InstructionExecutor = (i: Instruction, r: Register, d: Memory) => number;
 
 export {
   CartridgeMetadata,
   Instruction,
   Operand,
-  Register,
+  CPURegisters,
+  Decoder,
   Memory,
   InstructionExecutor,
   CPU,
