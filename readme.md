@@ -16,14 +16,6 @@ GameBoy emulator in pure JavaScript
 * Does not depend on Browser APIs.
   * It runs in Node (tested) and probably other runtimes (Deno, Bun)
 
-## TO-DOs
-
-* Does not support sound
-* Timing is not precise. Specifically, PPU penalties are wrong I believe
-* Does not support save states
-* Palette is hardcoded, but doesn't have to be
-* There is no ROM validation
-
 ## Deployment
 
 The web version is deployed on GitHub pages. You can deploy a new version like this:
