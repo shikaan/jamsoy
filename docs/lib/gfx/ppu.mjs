@@ -1,6 +1,6 @@
 // @ts-check
-import { readBit } from "./utils/bits.mjs";
-import { INTERRUPT } from "./interrupts.mjs";
+import { readBit } from "../utils/bits.mjs";
+import { INTERRUPT } from "../interrupts.mjs";
 
 // Number of cycles required to draw a line
 const CYCLES_TO_DRAW_LINE = 456;
@@ -60,16 +60,16 @@ const LIGHT_GRAY = new Uint8ClampedArray([198, 183, 190, 255]);
 const DARK_GRAY = new Uint8ClampedArray([86, 90, 117, 255]);
 const BLACK = new Uint8ClampedArray([15, 15, 27, 255]);
 
-class Graphics {
+class PPU {
   #memory;
   #interrupts;
   #cycles;
   #screen;
 
   /**
-   * @param {import("./types").Memory} memory
-   * @param {import("./types").Interrupts} interrupts
-   * @param {import("./types").Screen} screen
+   * @param {import("../types").Memory} memory
+   * @param {import("../types").Interrupts} interrupts
+   * @param {import("../types").Screen} screen
    */
   constructor(memory, interrupts, screen) {
     this.#memory = memory;
@@ -384,4 +384,4 @@ class Graphics {
   }
 }
 
-export { Graphics, LCD_CONTROL_REGISTER, CYCLES_TO_DRAW_LINE };
+export { PPU, LCD_CONTROL_REGISTER, CYCLES_TO_DRAW_LINE };

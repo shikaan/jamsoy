@@ -72,10 +72,7 @@
     // @ts-check
     import { getMetadata, formatMetadata } from './lib/cartridge.mjs';
     import { GameBoy } from './lib/gameboy.mjs';
-    import { Memory } from './lib/memory.mjs';
-    import { Interrupts } from './lib/interrupts.mjs';
-    import { CanvasScreen } from './lib/screen.mjs';
-    import { Graphics } from './lib/graphics.mjs';
+    import { CanvasScreen } from './lib/gfx/screen.mjs';
     import { Input, KEY } from './lib/input.mjs';
 
     const $rom = document.getElementById('rom');
