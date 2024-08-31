@@ -4,7 +4,7 @@ import { Interrupts } from "./interrupts.mjs";
 import { Screen } from "./gfx/screen.mjs";
 import { PPU } from "./gfx/ppu.mjs";
 import { CPURegisters } from "./cpu/registers.mjs";
-import { Decoder } from "./decoder.mjs";
+import { Decoder } from "./decoder/instruction.mjs";
 import { Input } from "./input.mjs";
 
 interface RawInstruction {

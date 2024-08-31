@@ -61,16 +61,12 @@
       <div>
         <input type="file" id="rom" />
       </div>
-      <h3>Metadata</h3>
-      <div>
-        <pre id="metadata"></pre>
-      </div>
     </aside>
   </section>
 
   <script type="module">
     // @ts-check
-    import { getMetadata, formatMetadata } from './lib/cartridge.mjs';
+    import { CartridgeDecoder, ColorMode, ROMBanking } from './lib/decoder/cartridge.mjs';
     import { GameBoy } from './lib/gameboy.mjs';
     import { CanvasScreen } from './lib/gfx/screen.mjs';
     import { Input, KEY } from './lib/input.mjs';
@@ -79,6 +75,7 @@
     const $screen = document.getElementById('screen');
     const $metadata = document.getElementById('metadata');
 
+    const cartridgeDecoder = new CartridgeDecoder();
     const canvasScreen = new CanvasScreen($screen);
     const input = new Input();
     const gameboy = new GameBoy(canvasScreen, input);
@@ -94,6 +91,24 @@
       Shift: KEY.SELECT,
     };
 
+    const formatMetadata = (metadata) => {
+      const colorMode = (mode) =>
+        Object.keys(ColorMode).find((key) => ColorMode[key] === mode);
+      const type = (type) =>
+        Object.keys(ROMBanking).find((key) => ROMBanking[key] === type);
+
+      return [
+        `  Title: ${metadata.title}`,
+        `  Color Mode: ${colorMode(metadata.colorMode)}`,
+        `  SGB: ${metadata.sgb}`,
+        `  Cartridge Type: ${type(metadata.type)}`,
+        `  ROM Size: ${metadata.romSize} bytes`,
+        `  RAM Size: ${metadata.ramSize} bytes`,
+        `  Destination: ${metadata.destination === 0 ? "Japan" : "Overseas"}`,
+        `  Mask ROM Version: ${metadata.maskROMVersion}`,
+      ].join("\n");
+    }
+
     const loop = () => {
       gameboy.update();
       canvasScreen.draw();
@@ -104,11 +119,17 @@
       canvasScreen.clear();
       const buffer = await file.arrayBuffer();
       const rom = new Uint8Array(buffer);
-      const metadata = getMetadata(rom);
-      $metadata.textContent = formatMetadata(metadata);
+      const metadata = cartridgeDecoder.decode(rom);
+
+      const meta = document.createElement('pre');
+      meta.textContent = formatMetadata(metadata);
+      $rom.replaceWith(meta)
+
       gameboy.loadROM(rom);
       loop();
     }
+
+    $rom.addEventListener('change', (event) => launch(event.target.files[0]));
 
     window.onload = () => {
       const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -117,16 +138,8 @@
         document.getElementsByTagName('html')[0].classList.add('dark');
       }
     }
-
-    window.addEventListener('keydown', (event) => {
-      input.keyDown(keyMap[event.key])
-    });
+    window.addEventListener('keydown', (event) => input.keyDown(keyMap[event.key]));
     window.addEventListener('keyup', (event) => input.keyUp(keyMap[event.key]));
-
-    $rom.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      launch(file);
-    });
   </script>
 </body>
 
